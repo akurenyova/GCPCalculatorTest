@@ -7,6 +7,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.gcp.SendEmailGCPPage;
+import waiters.WaitersHelper;
 
 public class TenMinuteMailPage {
 
@@ -27,14 +28,13 @@ public class TenMinuteMailPage {
     }
 
     public SendEmailGCPPage getTempEmail() {
-        driver.manage().window().maximize();
+        driver.manage().window().maximize(); // сразу
         tempEmailText.click();
         return new SendEmailGCPPage(driver);
     }
 
     public TenMinuteMailPage openEmail() {
-        new WebDriverWait(driver, 10).until(ExpectedConditions
-                .visibilityOf(emailMessage));
+        WaitersHelper.waitForVisibilityOf(driver, emailMessage); // 30 s
         emailMessage.click();
         return this;
     }

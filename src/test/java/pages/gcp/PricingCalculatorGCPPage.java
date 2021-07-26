@@ -1,12 +1,10 @@
 package pages.gcp;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import waiters.WaitersHelper;
 
 
 public class PricingCalculatorGCPPage {
@@ -20,7 +18,7 @@ public class PricingCalculatorGCPPage {
     @FindBy(xpath = "//md-tab-item[1]/div/div/div[2]")
     private WebElement computeEngineButton;
 
-    @FindBy(xpath = "//*[@id=\"input_66\"]")
+    @FindBy(xpath = "//*[@id='input_66']")
     private WebElement numberOfInstancesInput;
 
     @FindBy(id = "select_value_label_59")
@@ -89,15 +87,13 @@ public class PricingCalculatorGCPPage {
     }
 
     public PricingCalculatorGCPPage selectComputeEngineSection() {
-        new WebDriverWait(driver, 10).until(ExpectedConditions
-                .visibilityOf(computeEngineButton));
+        WaitersHelper.waitForVisibilityOf(driver,computeEngineButton);
         computeEngineButton.click();
         return this;
     }
 
     public PricingCalculatorGCPPage fillInNumberOfInstances(String numberOfInstances) {
-        new WebDriverWait(driver, 10).until(ExpectedConditions
-                .visibilityOf(numberOfInstancesInput));
+        WaitersHelper.waitForVisibilityOf(driver,numberOfInstancesInput);
         numberOfInstancesInput.sendKeys(numberOfInstances);
         return this;
     }
@@ -130,30 +126,26 @@ public class PricingCalculatorGCPPage {
 
     public PricingCalculatorGCPPage fillInSeries() {
         seriesDropdown.click();
-        seriesDropdownN1.click();
+        seriesDropdownN1.click(); // не кликом, заполнять, все
         return this;
     }
 
     public PricingCalculatorGCPPage fillInMachineType() {
-        new WebDriverWait(driver, 10).until(ExpectedConditions
-                .presenceOfElementLocated(By.xpath(seriesMachineTypeLocator)));
+        WaitersHelper.waitForPresenceOfElementLocated(driver,seriesMachineTypeLocator);
         seriesMachineType.click();
-        new WebDriverWait(driver, 10).until(ExpectedConditions
-                .presenceOfElementLocated(By.xpath(seriesMachineTypeN1S8Locator)));
+        WaitersHelper.waitForPresenceOfElementLocated(driver,seriesMachineTypeN1S8Locator);
         seriesMachineTypeN1S8.click();
         return this;
     }
 
     public PricingCalculatorGCPPage fillInAddGPUs() {
-        new WebDriverWait(driver, 10).until(ExpectedConditions
-                .presenceOfElementLocated(By.xpath(addGPUsCheckboxLocator)));
+        WaitersHelper.waitForPresenceOfElementLocated(driver,addGPUsCheckboxLocator);
         addGPUsCheckbox.click();
         return this;
     }
 
     public PricingCalculatorGCPPage fillInNumberOfGPUs() {
-        new WebDriverWait(driver, 10).until(ExpectedConditions
-                .presenceOfElementLocated(By.id(numberOfGPUsDropdownLocator)));
+        WaitersHelper.waitForPresenceOfElementLocated(driver,numberOfGPUsDropdownLocator);
         numberOfGPUsDropdown.click();
         numberOfGPUsDropdownN1.click();
         return this;
@@ -166,8 +158,7 @@ public class PricingCalculatorGCPPage {
     }
 
     public PricingCalculatorGCPPage fillInLocalSSd() {
-        new WebDriverWait(driver, 10).until(ExpectedConditions
-                .visibilityOf(localSSdDropdown));
+        WaitersHelper.waitForVisibilityOf(driver, localSSdDropdown);
         localSSdDropdown.click();
         localSSdDropdown2x375GB.click();
         return this;

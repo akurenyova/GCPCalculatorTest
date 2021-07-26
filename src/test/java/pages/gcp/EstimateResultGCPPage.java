@@ -4,8 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import waiters.WaitersHelper;
 
 public class EstimateResultGCPPage {
 
@@ -26,7 +25,7 @@ public class EstimateResultGCPPage {
     @FindBy(xpath = "//div[contains(text(),'Commitment term:')]")
     private WebElement commitedUsageLabel;
 
-    @FindBy(xpath = "//*[@id=\"resultBlock\"]/md-card/md-card-content/div/div/div/h2/b")
+    @FindBy(xpath = "//*[@id='resultBlock']/md-card/md-card-content/div/div/div/h2/b")
     private WebElement estimationResultLabel;
 
     @FindBy(xpath = "//button[contains(text(),'Email Estimate')]")
@@ -43,8 +42,7 @@ public class EstimateResultGCPPage {
     }
 
     public String totalEstimation() {
-        new WebDriverWait(driver, 10).until(ExpectedConditions
-                .visibilityOf(estimationResultLabel));
+        WaitersHelper.waitForVisibilityOf(driver,estimationResultLabel);
         return estimationResultLabel.getText();
     }
 
@@ -58,11 +56,11 @@ public class EstimateResultGCPPage {
 
     public String localSSdLabelText() {
         return localSSdLabel.getText();
-    }
+    } //название экшен - get
 
     public String commitedUsageLabelText() {
         return commitedUsageLabel.getText();
-    }
+    } //
 
     public String instanceTypeLabelText() {
         return instanceTypeLabel.getText();

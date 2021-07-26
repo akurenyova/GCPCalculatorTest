@@ -1,11 +1,14 @@
 package pages.gcp;
 
 import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.mail.TenMinuteMailPage;
+import waiters.WaitersHelper;
+
 import java.util.Iterator;
 import java.util.Set;
 
@@ -48,14 +51,14 @@ public class SendEmailGCPPage {
     public SendEmailGCPPage sendEstimationViaEmail() {
         driver.navigate().refresh();
         driver.switchTo().frame(0).switchTo().frame("myFrame");
-        new WebDriverWait(driver, 10).until(ExpectedConditions
-                .visibilityOf(emailEstimateButton));
+        WaitersHelper.waitForVisibilityOf(driver, emailEstimateButton);
         emailEstimateButton.click();
-        new WebDriverWait(driver, 10).until(ExpectedConditions
-                .visibilityOf(emailInput));
+        WaitersHelper.waitForVisibilityOf(driver, emailInput);
         emailInput.click();
-        emailInput.sendKeys(Keys.CONTROL + "v");
-        sendEmailButton.click();
+        //emailInput.sendKeys(Keys.CONTROL + "v");
+        new Actions(driver).sendKeys(emailInput, Keys.CONTROL + "v").build().perform(); // action на вставку, js executor
+        new Actions(driver).click(sendEmailButton).build().perform();
+        //sendEmailButton.click();
         return new SendEmailGCPPage(driver);
     }
 

@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import waiters.WaitersHelper;
 
 public class SearchResultsGCPPage {
 
@@ -21,18 +22,17 @@ public class SearchResultsGCPPage {
     }
 
     public PricingCalculatorGCPPage openPricingCalculator() {
-        new WebDriverWait(driver, 10).until(ExpectedConditions
-                .presenceOfElementLocated(By.xpath(buildLocatorForSearch()))).click();
+        WaitersHelper.waitForPresenceOfElementLocated(driver, buildLocatorForSearch());
         switchToMyFrame();
         return new PricingCalculatorGCPPage(driver);
     }
 
     private void switchToMyFrame() {
-        driver.switchTo().frame(0).switchTo().frame(frameName);
+        driver.switchTo().frame(0).switchTo().frame(frameName); // внутри страницы PrC
     }
 
     private String buildLocatorForSearch() {
         return  locatorForSearchBegin + searchTerm + locatorForSearchEnd;
-    }
+    } // маска
 
 }
