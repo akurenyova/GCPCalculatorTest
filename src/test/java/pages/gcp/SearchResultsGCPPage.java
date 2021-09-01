@@ -22,7 +22,8 @@ public class SearchResultsGCPPage {
     }
 
     public PricingCalculatorGCPPage openPricingCalculator() {
-        WaitersHelper.waitForPresenceOfElementLocated(driver, buildLocatorForSearch());
+        String locatorForSearch = buildLocatorForSearch();
+        WaitersHelper.waitForPresenceOfElementLocated(driver, locatorForSearch).click();
         switchToMyFrame();
         return new PricingCalculatorGCPPage(driver);
     }

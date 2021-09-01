@@ -12,25 +12,25 @@ public class PricingCalculatorGCPPage {
     private final String seriesMachineTypeLocator = "//md-select[@placeholder='Instance type']";
     private final String seriesMachineTypeN1S8Locator = "//md-option/div[contains(text(),'n1-standard-8')]";
     private final String addGPUsCheckboxLocator = "//md-checkbox[@aria-label='Add GPUs']/div[@class='md-container md-ink-ripple']";
-    private final String numberOfGPUsDropdownLocator = "select_value_label_408";
+    private final String numberOfGPUsDropdownLocator = "//label[contains(text(),'Number of GPUs')]/parent::md-input-container/md-select";
     private WebDriver driver;
 
     @FindBy(xpath = "//md-tab-item[1]/div/div/div[2]")
     private WebElement computeEngineButton;
 
-    @FindBy(xpath = "//*[@id='input_66']")
+    @FindBy(xpath = "//label[contains(text(),'Number of instances')]/following-sibling::input")
     private WebElement numberOfInstancesInput;
 
-    @FindBy(id = "select_value_label_59")
+    @FindBy(xpath = "//label[contains(text(),'Operating System')]/parent::md-input-container/md-select")
     private WebElement softwareDropdown;
 
     @FindBy(xpath = "//md-option/div[contains(text(),'Free: Debian,')]")
     private WebElement softwareDropdownFree;
 
-    @FindBy(id = "select_value_label_60")
+    @FindBy(xpath = "//label[contains(text(),'Machine Class')]/parent::md-input-container/md-select")
     private WebElement machineClassDropdown;
 
-    @FindBy(id = "select_option_81")
+    @FindBy(xpath = "//label[contains(text(),'Machine Class')]/parent::md-input-container/md-select/md-select-value/span/div[contains(text(),'Regular')]")
     private WebElement machineClassDropdownRegular;
 
     @FindBy(xpath = "//md-select[@name='series'] ")
@@ -48,31 +48,31 @@ public class PricingCalculatorGCPPage {
     @FindBy(xpath = addGPUsCheckboxLocator)
     private WebElement addGPUsCheckbox;
 
-    @FindBy(id = numberOfGPUsDropdownLocator)
+    @FindBy(xpath = numberOfGPUsDropdownLocator)
     private WebElement numberOfGPUsDropdown;
 
     @FindBy(xpath = "//div[7]/md-select-menu/md-content/md-option[2]/div")
     private WebElement numberOfGPUsDropdownN1;
 
-    @FindBy(id = "select_value_label_409")
+    @FindBy(xpath = "//label[contains(text(),'GPU type')]/parent::md-input-container/md-select")
     private WebElement gpuTypeDropdown;
 
     @FindBy(xpath = "//md-option[@value=\"NVIDIA_TESLA_V100\"]")
     private WebElement gpuTypeDropdownNTV100;
 
-    @FindBy(id = "select_value_label_370")
+    @FindBy(xpath = "//label[contains(text(),'Local SSD')]/parent::md-input-container/md-select")
     private WebElement localSSdDropdown;
 
     @FindBy(xpath = "//md-option/div[contains(text(),'2x375 GB')]")
     private WebElement localSSdDropdown2x375GB;
 
-    @FindBy(id = "select_value_label_64")
+    @FindBy(xpath = "//label[contains(text(),'Local SSD')]/parent::md-input-container/md-select")
     private WebElement datacenterLocationDropdown;
 
     @FindBy(xpath = "//div[10]/md-select-menu/md-content/md-option[2]/div")
     private WebElement datacenterLocationDropdownCarolina;
 
-    @FindBy(id = "select_value_label_65")
+    @FindBy(xpath = "//label[contains(text(),'Committed usage')]/parent::md-input-container/md-select")
     private WebElement commitedUsageDropdown;
 
     @FindBy(xpath = "//div[11]/md-select-menu/md-content/md-option[2]/div")
@@ -87,13 +87,12 @@ public class PricingCalculatorGCPPage {
     }
 
     public PricingCalculatorGCPPage selectComputeEngineSection() {
-        WaitersHelper.waitForVisibilityOf(driver,computeEngineButton);
-        computeEngineButton.click();
+        WaitersHelper.waitForVisibilityOf(driver,computeEngineButton).click();
         return this;
     }
 
     public PricingCalculatorGCPPage fillInNumberOfInstances(String numberOfInstances) {
-        WaitersHelper.waitForVisibilityOf(driver,numberOfInstancesInput);
+        WaitersHelper.waitForVisibilityOf(driver,numberOfInstancesInput).click();
         numberOfInstancesInput.sendKeys(numberOfInstances);
         return this;
     }
@@ -120,6 +119,7 @@ public class PricingCalculatorGCPPage {
 
     public PricingCalculatorGCPPage fillInMachineClass() {
         machineClassDropdown.click();
+        WaitersHelper.waitForVisibilityOf(driver,machineClassDropdownRegular).click();
         machineClassDropdownRegular.click();
         return this;
     }
@@ -145,7 +145,7 @@ public class PricingCalculatorGCPPage {
     }
 
     public PricingCalculatorGCPPage fillInNumberOfGPUs() {
-        WaitersHelper.waitForPresenceOfElementLocated(driver,numberOfGPUsDropdownLocator);
+        WaitersHelper.waitForPresenceOfElementLocated(driver,numberOfGPUsDropdownLocator).click();
         numberOfGPUsDropdown.click();
         numberOfGPUsDropdownN1.click();
         return this;
@@ -158,7 +158,7 @@ public class PricingCalculatorGCPPage {
     }
 
     public PricingCalculatorGCPPage fillInLocalSSd() {
-        WaitersHelper.waitForVisibilityOf(driver, localSSdDropdown);
+        WaitersHelper.waitForVisibilityOf(driver, localSSdDropdown).click();
         localSSdDropdown.click();
         localSSdDropdown2x375GB.click();
         return this;

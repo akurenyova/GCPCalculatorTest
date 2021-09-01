@@ -10,13 +10,13 @@ public class WaitersHelper {
 
     private static long TIMEOUT_IN_SECONDS = 10;
 
-    public static void waitForVisibilityOf(WebDriver driver, WebElement element) {
-        new WebDriverWait(driver, TIMEOUT_IN_SECONDS).until(ExpectedConditions
+    public static WebElement waitForVisibilityOf(WebDriver driver, WebElement element) {
+        return new WebDriverWait(driver, TIMEOUT_IN_SECONDS).until(ExpectedConditions
                 .visibilityOf(element));
     }
 
-    public static void waitForPresenceOfElementLocated(WebDriver driver, String xpathLocator) {
-        new WebDriverWait(driver, TIMEOUT_IN_SECONDS).until(ExpectedConditions
+    public static WebElement waitForPresenceOfElementLocated(WebDriver driver, String xpathLocator) {
+        return new WebDriverWait(driver, TIMEOUT_IN_SECONDS).until(ExpectedConditions
                 .presenceOfElementLocated(By.xpath(xpathLocator)));
     }
 

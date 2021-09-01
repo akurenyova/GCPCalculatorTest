@@ -4,8 +4,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.gcp.SendEmailGCPPage;
 import waiters.WaitersHelper;
 
@@ -34,7 +32,7 @@ public class TenMinuteMailPage {
     }
 
     public TenMinuteMailPage openEmail() {
-        WaitersHelper.waitForVisibilityOf(driver, emailMessage); // 30 s
+        WaitersHelper.waitForVisibilityOf(driver, emailMessage).click(); // 30 s
         emailMessage.click();
         return this;
     }

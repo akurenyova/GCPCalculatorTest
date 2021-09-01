@@ -4,8 +4,6 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.mail.TenMinuteMailPage;
 import waiters.WaitersHelper;
 
@@ -17,7 +15,7 @@ public class SendEmailGCPPage {
     private WebDriver driver;
     private static final String TENMINUTEEMAIL_URL = "https://10minutemail.com/";
 
-    @FindBy(id = "input_400")
+    @FindBy(id = "//label[contains(text(),'Email')]/following-sibling::input")
     private WebElement emailInput;
 
     @FindBy(xpath = "//button[contains(text(),'Send Email')]")
@@ -51,9 +49,9 @@ public class SendEmailGCPPage {
     public SendEmailGCPPage sendEstimationViaEmail() {
         driver.navigate().refresh();
         driver.switchTo().frame(0).switchTo().frame("myFrame");
-        WaitersHelper.waitForVisibilityOf(driver, emailEstimateButton);
+        WaitersHelper.waitForVisibilityOf(driver, emailEstimateButton).click();
         emailEstimateButton.click();
-        WaitersHelper.waitForVisibilityOf(driver, emailInput);
+        WaitersHelper.waitForVisibilityOf(driver, emailInput).click();
         emailInput.click();
         //emailInput.sendKeys(Keys.CONTROL + "v");
         new Actions(driver).sendKeys(emailInput, Keys.CONTROL + "v").build().perform(); // action на вставку, js executor

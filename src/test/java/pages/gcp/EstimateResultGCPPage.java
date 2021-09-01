@@ -42,7 +42,7 @@ public class EstimateResultGCPPage {
     }
 
     public String totalEstimation() {
-        WaitersHelper.waitForVisibilityOf(driver,estimationResultLabel);
+        WaitersHelper.waitForVisibilityOf(driver,estimationResultLabel).click();
         return estimationResultLabel.getText();
     }
 
