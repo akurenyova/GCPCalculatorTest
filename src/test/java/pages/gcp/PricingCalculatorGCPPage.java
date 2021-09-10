@@ -1,7 +1,9 @@
 package pages.gcp;
 
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import waiters.WaitersHelper;
@@ -13,6 +15,7 @@ public class PricingCalculatorGCPPage {
     private final String seriesMachineTypeN1S8Locator = "//md-option/div[contains(text(),'n1-standard-8')]";
     private final String addGPUsCheckboxLocator = "//md-checkbox[@aria-label='Add GPUs']/div[@class='md-container md-ink-ripple']";
     private final String numberOfGPUsDropdownLocator = "//label[contains(text(),'Number of GPUs')]/parent::md-input-container/md-select";
+    private final TestDataGCP testDataGCP;
     private WebDriver driver;
 
     @FindBy(xpath = "//md-tab-item[1]/div/div/div[2]")
@@ -23,6 +26,9 @@ public class PricingCalculatorGCPPage {
 
     @FindBy(xpath = "//label[contains(text(),'Operating System')]/parent::md-input-container/md-select")
     private WebElement softwareDropdown;
+
+    @FindBy(xpath = "//label[contains(text(),'Operating System')]")
+    private WebElement softwareDropdownLabel;
 
     @FindBy(xpath = "//md-option/div[contains(text(),'Free: Debian,')]")
     private WebElement softwareDropdownFree;
@@ -81,13 +87,36 @@ public class PricingCalculatorGCPPage {
     @FindBy(xpath = "//button[contains(text(),'Add to Estimate')]")
     private WebElement addToEstimateButton;
 
-    public PricingCalculatorGCPPage(WebDriver driver) {
+    public PricingCalculatorGCPPage(WebDriver driver, TestDataGCP testDataGCP) {
         this.driver = driver;
+        this.testDataGCP = testDataGCP;
         PageFactory.initElements(driver, this);
     }
 
     public PricingCalculatorGCPPage selectComputeEngineSection() {
         WaitersHelper.waitForVisibilityOf(driver,computeEngineButton).click();
+        return this;
+    }
+
+    public PricingCalculatorGCPPage openPricingCalculatorGCPPage(String searchString) {
+        SearchResultsGCPPage searchResultsGCPPage = new MainGCPPage(driver)
+                .openPage()
+                .searchForTerms(searchString);
+        return searchResultsGCPPage.openPricingCalculator(testDataGCP);
+    }
+
+    public PricingCalculatorGCPPage fillInEstimationForm(TestDataGCP testDataGCP) {
+        this.fillInNumberOfInstances(testDataGCP.getInstances())
+                .fillInAddGPUs(testDataGCP.getAddGPUs())
+                .fillInSoftware(testDataGCP.getSoftware())
+                .fillInMachineClass(testDataGCP.getMashineClass())
+                .fillInSeries(testDataGCP.getSeries())
+                .fillInMachineType(testDataGCP.getMachineType())
+                .fillInNumberOfGPUs(testDataGCP.getNumberOfGPUs())
+                .fillInGpuType(testDataGCP.getGpuType())
+                .fillInLocalSSd(testDataGCP.getLocalSSd())
+                .fillInDatacenterLocation(testDataGCP.getDataCenterLocation())
+                .fillInCommitedUsage(testDataGCP.getCommitedUsage());
         return this;
     }
 
@@ -97,82 +126,69 @@ public class PricingCalculatorGCPPage {
         return this;
     }
 
-    public PricingCalculatorGCPPage fillInEstimationForm() {
-        this.fillInSoftware()
-                .fillInMachineClass()
-                .fillInSeries()
-                .fillInMachineType()
-                .fillInAddGPUs()
-                .fillInNumberOfGPUs()
-                .fillInGpuType()
-                .fillInLocalSSd()
-                .fillInDatacenterLocation()
-                .fillInCommitedUsage();
-        return this;
-    }
-
-    public PricingCalculatorGCPPage fillInSoftware() {
-        softwareDropdown.click();
+    public PricingCalculatorGCPPage fillInSoftware(String softwareDropdownValue) {
+        softwareDropdown.sendKeys(softwareDropdownValue);
         softwareDropdownFree.click();
         return this;
     }
 
-    public PricingCalculatorGCPPage fillInMachineClass() {
-        machineClassDropdown.click();
-        WaitersHelper.waitForVisibilityOf(driver,machineClassDropdownRegular).click();
-        machineClassDropdownRegular.click();
+    public PricingCalculatorGCPPage fillInMachineClass(String machineClassDropdownValue) {
+        machineClassDropdown.sendKeys(machineClassDropdownValue);
+        machineClassDropdown.sendKeys(Keys.TAB);
         return this;
     }
 
-    public PricingCalculatorGCPPage fillInSeries() {
-        seriesDropdown.click();
-        seriesDropdownN1.click(); // не кликом, заполнять, все
+    public PricingCalculatorGCPPage fillInSeries(String seriesDropdownValue) {
+        seriesDropdown.sendKeys(seriesDropdownValue);
+        seriesDropdown.sendKeys(Keys.TAB);
         return this;
     }
 
-    public PricingCalculatorGCPPage fillInMachineType() {
+    public PricingCalculatorGCPPage fillInMachineType(String seriesMachineTypeValue) {
         WaitersHelper.waitForPresenceOfElementLocated(driver,seriesMachineTypeLocator);
-        seriesMachineType.click();
-        WaitersHelper.waitForPresenceOfElementLocated(driver,seriesMachineTypeN1S8Locator);
+        seriesMachineType.sendKeys(seriesMachineTypeValue);
         seriesMachineTypeN1S8.click();
         return this;
     }
 
-    public PricingCalculatorGCPPage fillInAddGPUs() {
-        WaitersHelper.waitForPresenceOfElementLocated(driver,addGPUsCheckboxLocator);
-        addGPUsCheckbox.click();
+    public PricingCalculatorGCPPage fillInAddGPUs(boolean addGPUsCheckboxValue) {
+        if (addGPUsCheckboxValue = true)
+        {
+            WaitersHelper.waitForPresenceOfElementLocated(driver,addGPUsCheckboxLocator);
+            addGPUsCheckbox.click();
+        }
         return this;
     }
 
-    public PricingCalculatorGCPPage fillInNumberOfGPUs() {
-        WaitersHelper.waitForPresenceOfElementLocated(driver,numberOfGPUsDropdownLocator).click();
-        numberOfGPUsDropdown.click();
-        numberOfGPUsDropdownN1.click();
+    public PricingCalculatorGCPPage fillInNumberOfGPUs(String numberOfGPUsDropdownValue) {
+        WaitersHelper.waitForPresenceOfElementLocated(driver,numberOfGPUsDropdownLocator);
+        numberOfGPUsDropdown.sendKeys(numberOfGPUsDropdownValue);
+        numberOfGPUsDropdown.sendKeys(Keys.TAB);
         return this;
     }
 
-    public PricingCalculatorGCPPage fillInGpuType() {
-        gpuTypeDropdown.click();
-        gpuTypeDropdownNTV100.click();
+    public PricingCalculatorGCPPage fillInGpuType(String gpuTypeDropdownValue) {
+        gpuTypeDropdown.sendKeys(gpuTypeDropdownValue);
+        gpuTypeDropdown.sendKeys(Keys.TAB);
         return this;
     }
 
-    public PricingCalculatorGCPPage fillInLocalSSd() {
+    public PricingCalculatorGCPPage fillInLocalSSd(String localSSdDropdownValue) {
         WaitersHelper.waitForVisibilityOf(driver, localSSdDropdown).click();
-        localSSdDropdown.click();
-        localSSdDropdown2x375GB.click();
+        localSSdDropdown.sendKeys(localSSdDropdownValue);
+        localSSdDropdown.sendKeys(Keys.TAB);
         return this;
     }
 
-    public PricingCalculatorGCPPage fillInDatacenterLocation() {
-        datacenterLocationDropdown.click();
-        datacenterLocationDropdownCarolina.click();
+    public PricingCalculatorGCPPage fillInDatacenterLocation(String datacenterLocationDropdownValue) {
+        datacenterLocationDropdown.sendKeys(datacenterLocationDropdownValue);
+        datacenterLocationDropdown.sendKeys(Keys.TAB);
         return this;
     }
 
-    public PricingCalculatorGCPPage fillInCommitedUsage() {
-        commitedUsageDropdown.click();
-        commitedUsageDropdown1year.click();
+    public PricingCalculatorGCPPage fillInCommitedUsage(String commitedUsageDropdownValue) {
+        commitedUsageDropdown.sendKeys(commitedUsageDropdownValue);
+        commitedUsageDropdown.sendKeys(Keys.TAB);
         return this;
     }
 
