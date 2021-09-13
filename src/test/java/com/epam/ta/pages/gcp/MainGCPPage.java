@@ -1,21 +1,19 @@
-package pages.gcp;
+package com.epam.ta.pages.gcp;
 
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import com.epam.ta.pages.AbstractPage;
 
-public class MainGCPPage {
-
-    private static final String HOMEPAGE_URL = "https://cloud.google.com/";
-    private WebDriver driver;
+public class MainGCPPage extends AbstractPage  {
 
     @FindBy(name = "q")
     private WebElement searchButton;
 
     public MainGCPPage(WebDriver driver) {
-        this.driver = driver;
+        super(driver);
         PageFactory.initElements(driver, this);
     }
 

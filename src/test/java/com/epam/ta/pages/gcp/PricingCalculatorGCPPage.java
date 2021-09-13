@@ -1,22 +1,22 @@
-package pages.gcp;
+package com.epam.ta.pages.gcp;
 
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import waiters.WaitersHelper;
+import com.epam.ta.pages.AbstractPage;
+import com.epam.ta.testdata.TestDataGCP;
+import com.epam.ta.waiters.WaitersHelper;
 
 
-public class PricingCalculatorGCPPage {
+public class PricingCalculatorGCPPage extends AbstractPage {
 
     private final String seriesMachineTypeLocator = "//md-select[@placeholder='Instance type']";
     private final String seriesMachineTypeN1S8Locator = "//md-option/div[contains(text(),'n1-standard-8')]";
     private final String addGPUsCheckboxLocator = "//md-checkbox[@aria-label='Add GPUs']/div[@class='md-container md-ink-ripple']";
     private final String numberOfGPUsDropdownLocator = "//label[contains(text(),'Number of GPUs')]/parent::md-input-container/md-select";
     private final TestDataGCP testDataGCP;
-    private WebDriver driver;
 
     @FindBy(xpath = "//md-tab-item[1]/div/div/div[2]")
     private WebElement computeEngineButton;
@@ -88,7 +88,7 @@ public class PricingCalculatorGCPPage {
     private WebElement addToEstimateButton;
 
     public PricingCalculatorGCPPage(WebDriver driver, TestDataGCP testDataGCP) {
-        this.driver = driver;
+        super(driver);
         this.testDataGCP = testDataGCP;
         PageFactory.initElements(driver, this);
     }
@@ -152,7 +152,7 @@ public class PricingCalculatorGCPPage {
     }
 
     public PricingCalculatorGCPPage fillInAddGPUs(boolean addGPUsCheckboxValue) {
-        if (addGPUsCheckboxValue = true)
+        if (addGPUsCheckboxValue == true)
         {
             WaitersHelper.waitForPresenceOfElementLocated(driver,addGPUsCheckboxLocator);
             addGPUsCheckbox.click();
