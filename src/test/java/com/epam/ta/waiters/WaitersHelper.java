@@ -1,4 +1,4 @@
-package waiters;
+package com.epam.ta.waiters;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
