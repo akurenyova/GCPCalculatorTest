@@ -1,0 +1,9 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="All com.epam.ta.tests" verbose="1" >
+    <test name="All com.epam.ta.tests"   >
+        <packages>
+            <package name="com.epam.ta.tests.PriceCalculationGCPTest" />
+        </packages>
+    </test>
+</suite>
