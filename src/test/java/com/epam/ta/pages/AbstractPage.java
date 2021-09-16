@@ -5,8 +5,8 @@ import org.openqa.selenium.WebDriver;
 public abstract class AbstractPage {
 
     protected WebDriver driver;
-    protected static final String HOMEPAGE_URL = "https://cloud.google.com/";
-    protected static final String TENMINUTEEMAIL_URL = "https://10minutemail.com/";
+    protected static final String HOMEPAGE_URL = "testdata.goodlecloud.url";
+    protected static final String TENMINUTEEMAIL_URL = "testdata.tenminemail.url";
 
     public AbstractPage(WebDriver driver) {
         this.driver = driver;
